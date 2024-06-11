@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'login.dart';
 import 'main.dart';  // Import your home screen
 
 class Splash extends StatefulWidget {
@@ -31,7 +32,8 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
     Future.delayed(const Duration(seconds: 3), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => MyHomePage(title: 'Home Page',)),  // Replace with your target screen
+      //  MaterialPageRoute(builder: (context) => MyHomePage(title: 'Home Page',)),  // Replace with your target screen
+        MaterialPageRoute(builder: (context) => LoginScreen()),  // Replace with your target screen
       );
     });
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:practice/splash.dart';
+import 'deatil.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,7 +17,6 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.deepPurple,
-        useMaterial3: false,
       ),
       home: const Splash(),
     );
@@ -86,7 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
               accountEmail: Text('user@example.com'),
               currentAccountPicture: CircleAvatar(
                 backgroundImage: NetworkImage(
-                    'https://avatars.githubusercontent.com/u/128147110?s=400&u=c46f7cc4e0804ec296ec0bf6048f4fd46c62c738&v=4'), // Replace with a real image URL
+                    'https://avatars.githubusercontent.com/u/128147110?s=400&u=c46f7cc4e0804ec296ec0bf6048f4fd46c62c738&v=4'),
               ),
             ),
             ListTile(
@@ -117,7 +117,6 @@ class _MyHomePageState extends State<MyHomePage> {
               leading: Icon(Icons.settings, color: Colors.deepPurple),
               title: Text('Settings'),
               onTap: () {
-                // Navigate to Settings
                 Navigator.pop(context);
               },
             ),
@@ -161,7 +160,7 @@ class HomeContent extends StatelessWidget {
           const SizedBox(height: 20),
           _buildCategorySection(),
           const SizedBox(height: 20),
-          _buildProductGrid(),
+          _buildProductGrid(context),
         ],
       ),
     );
@@ -187,10 +186,7 @@ class HomeContent extends StatelessWidget {
         return Builder(
           builder: (BuildContext context) {
             return Container(
-              width: MediaQuery
-                  .of(context)
-                  .size
-                  .width,
+              width: MediaQuery.of(context).size.width,
               margin: EdgeInsets.symmetric(horizontal: 5.0),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15.0),
@@ -208,10 +204,9 @@ class HomeContent extends StatelessWidget {
 
   Widget _buildCategorySection() {
     return Container(
-      height: 100,
-
+      height: 120,
       child: Padding(
-        padding: const EdgeInsets.only(left: 16.0,right: 16.0),
+        padding: const EdgeInsets.only(left: 16.0, right: 16.0),
         child: ListView(
           scrollDirection: Axis.horizontal,
           children: <Widget>[
@@ -220,7 +215,6 @@ class HomeContent extends StatelessWidget {
             _buildCategoryCard('Home', Icons.home, Colors.orange),
             _buildCategoryCard('Beauty', Icons.brush, Colors.purple),
             _buildCategoryCard('Sports', Icons.sports, Colors.green),
-
           ],
         ),
       ),
@@ -259,9 +253,9 @@ class HomeContent extends StatelessWidget {
     );
   }
 
-  Widget _buildProductGrid() {
+  Widget _buildProductGrid(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 16.0,right: 16.0),
+      padding: const EdgeInsets.only(left: 16.0, right: 16.0),
       child: GridView.count(
         crossAxisCount: 2,
         crossAxisSpacing: 16.0,
@@ -269,20 +263,16 @@ class HomeContent extends StatelessWidget {
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
         children: <Widget>[
-          _buildProductCard(
-              'Kot', 'https://th.bing.com/th/id/OIP.daZ9Thv9-teR27TAHME3aQHaJ4?rs=1&pid=ImgDetMain', '\$100'),
-          _buildProductCard(
-              'shose', 'https://th.bing.com/th/id/OIP.VClMj83Hx49wACgsaKXUfwAAAA?rs=1&pid=ImgDetMain', '\$200'),
-          _buildProductCard(
-              'Girl frak', 'https://th.bing.com/th/id/OIP.41U7sWPHFRz0Vi5V0_qYJQHaHa?rs=1&pid=ImgDetMain', '\$120'),
-          _buildProductCard(
-              'Girl Frak', 'https://th.bing.com/th/id/OIP.TKU9rDQBFuBYInM8GZiQdgHaHa?rs=1&pid=ImgDetMain', '\$120'),
+          _buildProductCard('Kot', 'https://th.bing.com/th/id/OIP.daZ9Thv9-teR27TAHME3aQHaJ4?rs=1&pid=ImgDetMain', '\$100', context),
+          _buildProductCard('Shoes', 'https://th.bing.com/th/id/OIP.VClMj83Hx49wACgsaKXUfwAAAA?rs=1&pid=ImgDetMain', '\$200', context),
+          _buildProductCard('Girl Dress', 'https://th.bing.com/th/id/OIP.41U7sWPHFRz0Vi5V0_qYJQHaHa?rs=1&pid=ImgDetMain', '\$120', context),
+          _buildProductCard('Girl Dress', 'https://th.bing.com/th/id/OIP.TKU9rDQBFuBYInM8GZiQdgHaHa?rs=1&pid=ImgDetMain', '\$120', context),
         ],
       ),
     );
   }
 
-  Widget _buildProductCard(String title, String imageUrl, String price) {
+  Widget _buildProductCard(String title, String imageUrl, String price, BuildContext context) {
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0),
@@ -290,34 +280,32 @@ class HomeContent extends StatelessWidget {
       elevation: 5,
       child: InkWell(
         onTap: () {
-          // Handle tap
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ProductDetailPage(
+                title: title,
+                imageUrl: imageUrl,
+                price: price,
+              ),
+            ),
+          );
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             ClipRRect(
               borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
-              child: Image.network(
-                imageUrl,
-                height: 100,
-                width: double.infinity,
-                fit: BoxFit.cover,
-              ),
+              child: Image.network(imageUrl, height: 96, width: double.infinity, fit: BoxFit.cover,),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(
-                    title,
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
+                  Text(title, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
                   const SizedBox(height: 5),
-                  Text(
-                    price,
-                    style: TextStyle(fontSize: 14, color: Colors.grey),
-                  ),
+                  Text(price, style: TextStyle(fontSize: 14, color: Colors.grey),),
                 ],
               ),
             ),
